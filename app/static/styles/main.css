@@ -1,0 +1,36 @@
+html {
+  background-color: #3c3f41;
+}
+
+body {
+  background: transparent;
+}
+
+/*
+  From: http://angular-ui.github.io/bootstrap/
+  Original Bootstrap's CSS depends on empty href attributes to
+  style cursors for several components (pagination, tabs etc.).
+  But in AngularJS adding empty href attributes to link tags
+  will cause unwanted route changes. This is why we need to
+  remove empty href attributes from directive templates and as
+  a result styling is not applied correctly. The remedy is
+  simple, just add the following styling to your application:
+*/
+.nav, .pagination, .carousel a {
+  cursor: pointer;
+}
+
+.test-console {
+    font-family: Andale Mono, monospace;  line-height: 1em;
+    font-size: 1em;
+    background-color: black;
+    color: green;
+    padding: 8px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.grey-text {
+    color: #747474;
+}

@@ -3,6 +3,7 @@
 <head>
     <title>UMFTester</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
 </head>
 <body ng-app="umfTestApp">
 
@@ -29,10 +30,9 @@
 <div class="container-fluid" ng-view="">
 </div>
 
-<hr>
 <div class="row-fluid">
     <footer class="span12">
-        <p class="text-center">&copy; 2013 Acme Inc.</p>
+        <p class="text-center grey-text">&copy; 2013 Acme Sockets, Inc.</p>
     </footer>
 </div>
 
@@ -42,6 +42,7 @@
 <script src="{{ url_for('static', filename='controllers/main.js') }}"></script>
 <script src="{{ url_for('static', filename='controllers/heroUnit.js') }}"></script>
 <script src="{{ url_for('static', filename='controllers/learnmore.js') }}"></script>
+<script src="{{ url_for('static', filename='directives/panel.js') }}"></script>
 
 </body>
 </html>

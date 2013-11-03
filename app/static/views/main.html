@@ -3,7 +3,6 @@
         <div class="span4"><img src="images/umf-logo.png" alt=""/></div>
         <div class="span8">
             <h2>Welcome to UMFTester</h2>
-
             <p>
                 UMFTester is a tool to test UMF-based WebSocket messages and underlying Python implementation.
             </p>
@@ -13,4 +12,17 @@
     </div>
 </div>
 
-<button class="btn btn-info" ng-click="sendData()">Send Data</button>
+<panel title="'Test Options'">
+    <div class="row-fluid">
+        <button class="btn btn-info pull-right" ng-click="sendData()">Send Data</button>
+    </div>
+</panel>
+
+
+<panel title="'Test Console'">
+    <div class="test-console">
+        <p>Connected to WebSocket.</p>
+        <p>Ready for testing.</p>
+    </div>
+</panel>
+
