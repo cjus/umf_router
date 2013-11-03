@@ -1,0 +1,16 @@
+<div class="hero-unit" ng-show="showHeroUnit" ng-controller="HerounitCtrl">
+    <div class="row-fluid">
+        <div class="span4"><img src="images/umf-logo.png" alt=""/></div>
+        <div class="span8">
+            <h2>Welcome to UMFTester</h2>
+
+            <p>
+                UMFTester is a tool to test UMF-based WebSocket messages and underlying Python implementation.
+            </p>
+            <button class="btn btn-info" ng-click="learnMore()">Learn more</button>
+            <button class="btn btn-primary" ng-click="closeHeroUnit()">Close</button>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-info" ng-click="sendData()">Send Data</button>
