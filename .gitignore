@@ -1,6 +1,7 @@
 *.py[cod]
 
 .idea
+atlassian-ide-plugin.xml
 
 # C extensions
 *.so
