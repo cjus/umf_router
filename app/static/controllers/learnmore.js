@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @name LearnmoreCtrl
  * @description Learn more controller. Support the Learn more functionality
@@ -8,5 +6,6 @@
  */
 angular.module('umfTestApp')
   .controller('LearnmoreCtrl', ['$scope', '$location', function ($scope, $location) {
+    'use strict';
   }]);
 

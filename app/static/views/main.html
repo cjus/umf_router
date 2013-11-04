@@ -3,6 +3,7 @@
         <div class="span4"><img src="images/umf-logo.png" alt=""/></div>
         <div class="span8">
             <h2>Welcome to UMFTester</h2>
+
             <p>
                 UMFTester is a tool to test UMF-based WebSocket messages and underlying Python implementation.
             </p>
@@ -14,15 +15,42 @@
 
 <panel title="'Test Options'">
     <div class="row-fluid">
-        <button class="btn btn-info pull-right" ng-click="sendData()">Send Data</button>
+        <div class="span4">
+            <label>Message Type:</label>
+            <select class="span12" ng-model="settings.msgType"
+                    ng-options="item.name for item in msgTypes">
+            </select>
+        </div>
+        <div class="span4">
+            <label>msg/iteration:</label>
+            <input class="span10" type="text" value="{{settings.msgPerSecond}}"
+                   ng-model="settings.msgPerSecond">
+        </div>
+        <div class="span4">
+            <label>Interations:</label>
+            <select class="span12" ng-model="settings.iteration"
+                    ng-options="item.name for item in iterationChoices">
+            </select>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span4">
+            <label>Payload size:</label>
+            <select class="span10" ng-model="settings.payloadSize"
+                    ng-options="pos.name for pos in payloadSizeOptions">
+            </select>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <button class="btn pull-right {{settings.startTestButton.class}}" ng-click="startTest()">
+            {{settings.startTestButton.name}}
+        </button>
     </div>
 </panel>
 
-
-<panel title="'Test Console'">
+<panel title="'Console'">
     <div class="test-console">
-        <p>Connected to WebSocket.</p>
-        <p>Ready for testing.</p>
+        <p ng-repeat="line in console">{{ line }}</p>
     </div>
 </panel>
-
