@@ -8,6 +8,7 @@ app = Flask(__name__, static_folder='static', static_url_path='')
 app.secret_key = os.urandom(24)
 app.debug = True
 
+
 def websocket_handler(environ, start_response):
     path = environ["PATH_INFO"]
     if path == "/":
