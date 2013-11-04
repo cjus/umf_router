@@ -56,12 +56,13 @@ angular.module('umfTestApp')
       msgType: $scope.msgTypes[0],
       startTestButton: $scope.startTestButtonOptions[0]
     };
+    var userID = $scope.settings.userID;
+    $scope.settings.shortUID = userID.slice(0, 2) + userID.slice(userID.length - 2);
+    var shortUID = $scope.settings.shortUID;
 
     if ("WebSocket" in window) {
       $scope.ws = new WebSocket("ws://" + document.domain + ":5000/ws");
       if ($scope.ws) {
-        var userID = $scope.settings.userID;
-        var shortUID = userID.slice(0, 2) + userID.slice(userID.length - 2);
         consoleLog("Initializing UMFTester v" + VERSION);
         consoleLog("Running with userID: " + userID + " (" + shortUID + ")");
         consoleLog("Connected to WebSocket.");
@@ -160,7 +161,7 @@ angular.module('umfTestApp')
           }
         }
 
-        $scope.console.push(strDate + " | " + message);
+        $scope.console.push(strDate + " | (" + $scope.settings.shortUID + "): " + message);
       } catch (exception) {
       }
     }
