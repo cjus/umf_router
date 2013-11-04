@@ -40,10 +40,10 @@ angular.module('umfTestApp')
       {name: 'Five times', value: 5},
       {name: 'Until stopped', value: -1}
     ];
+    $scope.console = [];
     $scope.messages = [
       {'output': 'Sent from my browser!'}
     ];
-    $scope.console = [];
 
     $scope.settings = {
       textBuffer: '',
@@ -68,6 +68,14 @@ angular.module('umfTestApp')
     $scope.ws.onmessage = function (msg) {
       var message = JSON.parse(msg.data);
       consoleLog("Incoming message: ", message);
+    };
+
+    // Cleanly close websocket when unload window
+    window.onbeforeunload = function () {
+      $scope.ws.onclose = function () {
+        // intentionally set to empty
+      }; // disable onclose handler first
+      $scope.ws.close();
     };
 
     $scope.startTest = function () {
@@ -122,17 +130,6 @@ angular.module('umfTestApp')
         }, 1000);
       }
     };
-
-    // Cleanly close websocket when unload window
-    window.onbeforeunload = function () {
-      $scope.ws.onclose = function () {
-        // intentionally set to empty
-      }; // disable onclose handler first
-      $scope.ws.close();
-    };
-
-    function stopTimer() {
-    }
 
     function consoleLog(message, objectValue) {
       try {
