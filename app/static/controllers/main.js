@@ -46,6 +46,7 @@ angular.module('umfTestApp')
     ];
 
     $scope.settings = {
+      userID: generateUserID(),
       textBuffer: '',
       timerID: null,
       msgPerSecond: 1,
@@ -59,7 +60,10 @@ angular.module('umfTestApp')
     if ("WebSocket" in window) {
       $scope.ws = new WebSocket("ws://" + document.domain + ":5000/ws");
       if ($scope.ws) {
+        var userID = $scope.settings.userID;
+        var shortUID = userID.slice(0, 2) + userID.slice(userID.length - 2);
         consoleLog("Initializing UMFTester v" + VERSION);
+        consoleLog("Running with userID: " + userID + " (" + shortUID + ")");
         consoleLog("Connected to WebSocket.");
         consoleLog("Ready for testing.");
       }
@@ -131,17 +135,23 @@ angular.module('umfTestApp')
       }
     };
 
+    function getDate() {
+      var date = new Date()
+        , hours = date.getHours()
+        , minutes = date.getMinutes()
+        , seconds = date.getSeconds();
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      return "" + hours + ":" + minutes + ":" + seconds + "." +
+        date.getMilliseconds();
+    }
+
     function consoleLog(message, objectValue) {
+      var strDate = getDate();
       try {
-        var date = new Date()
-          , hours = date.getHours()
-          , minutes = date.getMinutes()
-          , seconds = date.getSeconds();
-
-        hours = hours < 10 ? "0" + hours : hours;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
         if (typeof objectValue != "undefined") {
           if (typeof objectValue == "object") {
             message = message + "(object) " + JSON.stringify(objectValue);
@@ -150,8 +160,7 @@ angular.module('umfTestApp')
           }
         }
 
-        $scope.console.push(hours + ":" + minutes + ":" + seconds + "." +
-          date.getMilliseconds() + " | " + message);
+        $scope.console.push(strDate + " | " + message);
       } catch (exception) {
       }
     }
@@ -173,4 +182,10 @@ angular.module('umfTestApp')
       }
       return buffer;
     }
+
+    function generateUserID() {
+      var strDate = getDate();
+      return Sha1.hash(strDate);
+    }
+
   }]);
