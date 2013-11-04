@@ -41,9 +41,6 @@ angular.module('umfTestApp')
       {name: 'Until stopped', value: -1}
     ];
     $scope.console = [];
-    $scope.messages = [
-      {'output': 'Sent from my browser!'}
-    ];
 
     $scope.settings = {
       userID: generateUserID(),
@@ -59,6 +56,20 @@ angular.module('umfTestApp')
     var userID = $scope.settings.userID;
     $scope.settings.shortUID = userID.slice(0, 2) + userID.slice(userID.length - 2);
     var shortUID = $scope.settings.shortUID;
+
+    $scope.messages = [
+      {
+        "mid": 0,
+        "type": "msg",
+        "to": "umfTestServer",
+        "from": "UMFTester:" + shortUID,
+        "version": "1.0",
+        "timestamp": "",
+        "body": {
+        }
+      },
+      {'output': 'Sent from my browser!'}
+    ];
 
     if ("WebSocket" in window) {
       $scope.ws = new WebSocket("ws://" + document.domain + ":5000/ws");
@@ -124,7 +135,9 @@ angular.module('umfTestApp')
           if (go) {
             cnt = Number(settings.msgPerSecond);
             msg = $scope.messages[0];
-            msg.output = settings.textBuffer;
+            msg.body.addon = settings.textBuffer;
+            msg = buildUMFMessage(msg, $scope.settings.msgType.value);
+
             for (i = 0; i < cnt; i++) {
               msg = JSON.stringify(msg);
               $scope.ws.send(msg);
@@ -187,6 +200,15 @@ angular.module('umfTestApp')
     function generateUserID() {
       var strDate = getDate();
       return Sha1.hash(strDate);
+    }
+
+    function buildUMFMessage(message, messageType) {
+      var dateUTC = new Date().toUTCString()
+        , iso8601TimeStamp = new Date(dateUTC).toISOString();
+      message.type = messageType;
+      message.timestamp = iso8601TimeStamp;
+      message.mid = UUID.generateWeakUUID();
+      return message;
     }
 
   }]);
