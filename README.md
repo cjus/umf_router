@@ -4,7 +4,7 @@
 umf_router is a Python/Flask server application which uses gevent and gevent-websocket to handle WebSocket messages which are formatted using a JSON message format called UMF.
 This application is a proof-of-concept for bidirectional message passing via WebSockets.
 
-[UMF Documentation](./docs/UniversalMessagingFormat.md)
+[UMF Documentation](UniversalMessagingFormat.md)
 
 Note: above link doesn't work under Atlasian Stash Repos. Also, Stash doesn't currently render mark down files other than the default README.md
 The file can be found in docs/UniversalMessagingFormat.md
