@@ -134,11 +134,10 @@ angular.module('umfTestApp')
           }
           if (go) {
             cnt = Number(settings.msgPerSecond);
-            msg = $scope.messages[0];
-            msg.body.addon = settings.textBuffer;
-            msg = buildUMFMessage(msg, $scope.settings.msgType.value);
-
             for (i = 0; i < cnt; i++) {
+              msg = $scope.messages[0];
+              msg.body.addon = settings.textBuffer;
+              msg = buildUMFMessage(msg, $scope.settings.msgType.value);
               msg = JSON.stringify(msg);
               $scope.ws.send(msg);
             }
