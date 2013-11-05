@@ -24,7 +24,7 @@ The page is divided into two panels, Test Options and Console
 
 ### Setting Test Options
 UMFTester allows you to perform a number of different tests. Essentially you can specify the number of messages to send per second. Each second is considered a test iteration.
-For each tests you can select the type of messages you'd like to send. Currently only Chat and Heart Beat messages are supported.
+For each tests you can select the type of messages you'd like to send. If "random" is chosen then the test will randomly switch between message types.
 You can also set the number of messages to send via each test iteration.
 To can also set the number of iterations you'd like to run. Lastly you can specify an amount of bytes to add to each message's payload.
 
