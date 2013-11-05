@@ -7,7 +7,9 @@ angular.module('umfTestApp')
   .controller('MainCtrl', ['$scope', '$location', function ($scope, $location) {
     'use strict';
 
-    var VERSION = "1.0";
+    var VERSION = "1.0"
+      , userID
+      , shortUID;
 
     $scope.payloadSizeOptions = [
       {name: '.5 kB', value: 0.5},
@@ -24,11 +26,11 @@ angular.module('umfTestApp')
       {name: '1024 kB', value: 1024}
     ];
     $scope.msgTypes = [
-      {name: 'Random', value: 'random'},
       {name: 'Chat', value: 'chat'},
       {name: 'Client info', value: 'client'},
       {name: 'Mouse position', value: 'mouse'},
-      {name: 'Heart beat', value: 'heart'}
+      {name: 'Heart beat', value: 'heart'},
+      {name: 'Random', value: 'random'}
     ];
     $scope.startTestButtonOptions = [
       {name: 'Start', class: 'btn-primary'},
@@ -53,9 +55,9 @@ angular.module('umfTestApp')
       msgType: $scope.msgTypes[0],
       startTestButton: $scope.startTestButtonOptions[0]
     };
-    var userID = $scope.settings.userID;
+    userID = $scope.settings.userID;
     $scope.settings.shortUID = userID.slice(0, 2) + userID.slice(userID.length - 2);
-    var shortUID = $scope.settings.shortUID;
+    shortUID = $scope.settings.shortUID;
 
     $scope.messages = [
       {
@@ -67,8 +69,7 @@ angular.module('umfTestApp')
         "timestamp": "",
         "body": {
         }
-      },
-      {'output': 'Sent from my browser!'}
+      }
     ];
 
     if ("WebSocket" in window) {
@@ -121,7 +122,12 @@ angular.module('umfTestApp')
         consoleLog("Payload size: " + payloadSize + " bytes.");
 
         $scope.settings.timerID = setInterval(function () {
-          consoleLog("iterationCnt: " + settings.iterationCnt);
+          if (settings.iterationCnt == -1) {
+            consoleLog("iterationCnt: 1");
+          } else {
+            consoleLog("iterationCnt: " + settings.iterationCnt);
+          }
+
           var go = true;
           if (settings.iteration.value != -1) {
             if (--settings.iterationCnt < 0) {
@@ -137,7 +143,11 @@ angular.module('umfTestApp')
             for (i = 0; i < cnt; i++) {
               msg = $scope.messages[0];
               msg.body.addon = settings.textBuffer;
-              msg = buildUMFMessage(msg, $scope.settings.msgType.value);
+              var msgType = $scope.settings.msgType.value;
+              if ($scope.settings.msgType.value == "random") {
+                msgType = $scope.msgTypes[Math.floor((Math.random() * 4))].value;
+              }
+              msg = buildUMFMessage(msg, msgType);
               msg = JSON.stringify(msg);
               $scope.ws.send(msg);
             }

@@ -12,12 +12,16 @@ from uuid import uuid4
 from umf.umf_router import UMFRouter
 from chat_msg_handler.handler import ChatMsgHandler
 from heart_msg_handler.handler import HeartBeatMsgHandler
+from client_msg_handler.handler import ClientMsgHandler
+from mouse_msg_handler.handler import MouseMsgHandler
 
 umf_router = UMFRouter()
 
 # instanciate UMF message handlers
 chat_msg_handler = ChatMsgHandler()
 heart_msg_handler = HeartBeatMsgHandler()
+mouse_msg_handler = MouseMsgHandler()
+client_msg_handler = ClientMsgHandler()
 
 
 def handle_websocket(ws):
