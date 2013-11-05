@@ -6,8 +6,10 @@ umf_router as they're received.
 __author__ = 'carlosjustiniano'
 
 import json
+import random
+import time
+from uuid import uuid4
 from umf.umf_router import UMFRouter
-
 from chat_msg_handler.handler import ChatMsgHandler
 from heart_msg_handler.handler import HeartBeatMsgHandler
 
@@ -22,12 +24,24 @@ def handle_websocket(ws):
     while True:
         message = ws.receive()
         if message is None:
-            print "handle_websocket as ws.received = None, exiting"
+            print "handle_websocket has ws.received = None, exiting"
             break
         else:
             message = json.loads(message)
             umf_router.route(message)
 
-            #r = "I have received this message from you : %s" % message
-            #r += "<br>Glad to be your webserver."
-            #ws.send(json.dumps({'output': r}))
+            if random.randint(0, 10) > 5:
+                t = time.gmtime()
+                time_stamp = "%d/%2.2d/%2.2dT%2.2d:%2.2d:%2.2dZ" % \
+                             (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
+                msg = {
+                    "mid": uuid4().hex,
+                    "type": "chat",
+                    "to": message["from"],
+                    "from": "umfTestServer",
+                    "version": "1.0",
+                    "timestamp": time_stamp,
+                    "body": {
+                    }
+                }
+                ws.send(json.dumps(msg))
