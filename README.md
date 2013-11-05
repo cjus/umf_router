@@ -44,10 +44,9 @@ The core test is for the actual UMF router located in /umf/umf_router_tests.py
 The SPA's tests are in /app/tests/spec.  Load the SpecRunner.html to see tests run.
 
 # TODOs
-This entire application is simple a websocket proof of concept, however there are still a lot of things that can be added to improve it.
+This entire application is simple a WebSocket proof of concept, however there are still a lot of things that can be added to improve it.
 
 * Improved documentation.
 * More tests!
-* More UMF messages. Currently only two messages are implemented, chat and heartbeat message.
 * More doc strings.
 
