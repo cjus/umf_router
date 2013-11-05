@@ -1,4 +1,10 @@
-# coding: utf-8
+"""websocket handler
+Loads the UMFRouter and registers our sample message handlers.
+Also sets up the handling of each websocket and passes messages onto the
+umf_router as they're received.
+"""
+__author__ = 'carlosjustiniano'
+
 import json
 from umf.umf_router import UMFRouter
 

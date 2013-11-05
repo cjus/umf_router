@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @name umfTesterApp
  * @description  umfTesterApp module. Includes dependency loading and router.
@@ -7,6 +5,7 @@
  */
 angular.module('umfTestApp', [])
   .config(function ($routeProvider, $locationProvider) {
+    'use strict';
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# coding: utf-8
+"""Init WSGIServer and websocket_handler"""
+__author__ = 'carlosjustiniano'
+
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 

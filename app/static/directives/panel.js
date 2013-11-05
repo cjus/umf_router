@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @name  panel
  * @description  Panel Directive.  Implements <panel> which
@@ -8,6 +6,7 @@
  */
 angular.module('umfTestApp')
   .directive('panel', function() {
+    'use strict';
     var defaults = {
       panelBorderStyle: 'solid 1px #ECECEC', /* styling for panel border */
       panelMargin: '0 0 12px 0', /* margin around panel */
