@@ -141,7 +141,6 @@ angular.module('umfTestApp')
               msg = JSON.stringify(msg);
               $scope.ws.send(msg);
             }
-            consoleLog("  " + cnt + " messages sent");
           }
           $scope.$apply();
         }, 1000);
