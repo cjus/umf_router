@@ -8,6 +8,7 @@ angular.module('umfTestApp')
     'use strict';
 
     var VERSION = "1.0"
+      , WEBSOCKET_PORT = 5000
       , userID
       , shortUID;
 
@@ -73,7 +74,7 @@ angular.module('umfTestApp')
     ];
 
     if ("WebSocket" in window) {
-      $scope.ws = new WebSocket("ws://" + document.domain + ":5000/ws");
+      $scope.ws = new WebSocket("ws://" + document.domain + ":" + WEBSOCKET_PORT + "/ws");
       if ($scope.ws) {
         consoleLog("Initializing UMFTester v" + VERSION);
         consoleLog("Running with userID: " + userID + " (" + shortUID + ")");
