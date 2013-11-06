@@ -5,7 +5,14 @@ This application is a proof-of-concept for bidirectional message passing via Web
 This project also includes a single page application (SPA) tester written using AngularJS. The tester is called UMFTester and can be used to send/receive messages to/from Flask-based UMFRouter.
 
 # Installation
-See the requirements.txt file for the small list of package dependencies.
+See the requirements.txt file for the small list of package dependencies. To install the packages in the requirements.txt file use:
+
+    $ sudo pip install -r requirements.txt
+
+If you're getting gevent related errors when trying the statement above, make sure you have python-dev and libevent-dev installed:
+
+    $ sudo apt-get install python-dev
+    $ sudo apt-get install libevent-dev
 
 # UMFTester
 ![UMFTester screenshot](https://stash.bringit.com/users/cjus/repos/umf_router/browse/UMFTester.png?&raw "UMFTester screenshot")
@@ -18,7 +25,7 @@ Then go to your web browser and load:
 
     http://localhost:5000
 
-You should see a page similar to the one shown in the screenshot above.
+You should see a page similar to the one shown in the screen shot above.
 
 The page is divided into two panels, Test Options and Console
 
