@@ -8,6 +8,6 @@ from geventwebsocket.handler import WebSocketHandler
 from app import websocket_handler
 
 if __name__ == '__main__':
-    WEB_SOCKET_PORT = 5000
+    WEB_SOCKET_PORT = 80
     http_server = WSGIServer(('', WEB_SOCKET_PORT), websocket_handler, handler_class=WebSocketHandler)
     http_server.serve_forever()
