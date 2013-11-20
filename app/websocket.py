@@ -8,40 +8,33 @@ __author__ = 'carlosjustiniano'
 import json
 import random
 import time
+
 from uuid import uuid4
+import message
 from umf.umf_router import UMFRouter
-from chat_msg_handler.handler import ChatMsgHandler
-from heart_msg_handler.handler import HeartBeatMsgHandler
-from client_msg_handler.handler import ClientMsgHandler
-from mouse_msg_handler.handler import MouseMsgHandler
-
-umf_router = UMFRouter()
-
-# instanciate UMF message handlers
-chat_msg_handler = ChatMsgHandler()
-heart_msg_handler = HeartBeatMsgHandler()
-mouse_msg_handler = MouseMsgHandler()
-client_msg_handler = ClientMsgHandler()
+from umf.umf_message import UMFMessageField
 
 
 def handle_websocket(ws):
     while True:
-        message = ws.receive()
-        if message is None:
+        ws_message = ws.receive()
+        if ws_message is None:
             print "handle_websocket has ws.received = None, exiting"
             break
         else:
-            message = json.loads(message)
-            umf_router.route(message)
+            msg_dict = json.loads(ws_message)
+            umf_router = UMFRouter()
+            umf_router.route(msg_dict)
 
             if random.randint(0, 10) > 5:
                 t = time.gmtime()
                 time_stamp = "%d/%2.2d/%2.2dT%2.2d:%2.2d:%2.2dZ" % \
-                             (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
+                             (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour,
+                              t.tm_min, t.tm_sec)
                 msg = {
                     "mid": uuid4().hex,
                     "type": "chat",
-                    "to": message["from"],
+                    "to": msg_dict[UMFMessageField.FROM],
                     "from": "umfTestServer",
                     "version": "1.0",
                     "timestamp": time_stamp,

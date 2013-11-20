@@ -4,9 +4,12 @@ message router for our application.
 """
 __author__ = 'carlosjustiniano'
 
+from umf_message import UMFMessageField
+
 
 def singleton(cls):
-    """singleton helper"""
+    """This is a singleton helper function."""
+
     instances = {}
 
     def get_instance():
@@ -19,35 +22,41 @@ def singleton(cls):
 
 @singleton
 class UMFRouter:
-    """UMFRouter singleton"""
+    """UMFRouter singleton class. Helpful in ensuring that only one instance
+    of this class is available to the entire system.
+    """
 
     def __init__(self):
+        """Init message router dictionary."""
         self.message_router_map = {}
 
+    def type_exists(self, message_type):
+        """Test if type is already registered and in message_router_map."""
+        return message_type in self.message_router_map
+
+    def handler_count(self, message_type):
+        """Return count of handler for a message_type."""
+        if self.type_exists(message_type):
+            return len(self.message_router_map[message_type])
+        return 0
+
     def register_handler(self, message_type, handler):
-        """register a handler for a specific message_type"""
-        registered = False
-        if message_type in self.message_router_map:
-            if self.message_router_map[message_type] == handler:
-                return registered
-        else:
+        """Register a handler for a specific message_type."""
+        if not self.type_exists(message_type):
             self.message_router_map[message_type] = []
-            registered = True
         self.message_router_map[message_type].append(handler)
-        print "    Handler registered for %s by %s" % (message_type, handler)
-        return registered
+        print('    Handler registered for %s by %s' % (message_type, handler))
+        return True
 
     def route(self, message):
-        """route a message to one or more registered handlers"""
-        routed = False
-        if message["type"] not in self.message_router_map:
-            print "Unable to route message. Message handler not registered for message type: %s" % message["type"]
-            return routed
+        """Route a message to one or more registered handlers."""
+        routed = True
+        if message[UMFMessageField.TYPE] not in self.message_router_map:
+            print('Unable to route message. Message handler not registered for '
+                  'message type: %s' % message[UMFMessageField.TYPE])
+            return False
 
-        for handler in self.message_router_map[message["type"]]:
-            print "Message of type %s is being routed to handler %s" % (message["type"], handler)
-            routed = True
+        for handler in self.message_router_map[message[UMFMessageField.TYPE]]:
             handler(message)
-
         return routed
 

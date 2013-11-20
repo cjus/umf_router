@@ -1,1 +1,1 @@
-__author__ = 'carlosjustiniano'
+"""Universal Message Format"""
