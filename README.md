@@ -1,6 +1,6 @@
 # WebSocket Universal Message Router (POC)
 umf_router is a Python/Flask server application which uses gevent and gevent-websocket to handle WebSocket messages which are formatted using a JSON message format called UMF.
-This application is a proof-of-concept for bidirectional message passing via WebSockets.  To learn more about UMF see the [UMF Documentation](https://bringit.atlassian.net/wiki/display/PB/Universal+Messaging+Format)
+This application is a proof-of-concept for bidirectional message passing via WebSockets.  To learn more about UMF see the [UMF Documentation](https://github.com/cjus/umf_router/blob/master/UniversalMessagingFormat.md)
 
 This project also includes a single page application (SPA) tester written using AngularJS. The tester is called UMFTester and can be used to send/receive messages to/from Flask-based UMFRouter.
 
