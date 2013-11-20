@@ -15,7 +15,7 @@ If you're getting gevent related errors when trying the statement above, make su
     $ sudo apt-get install libevent-dev
 
 # UMFTester
-![UMFTester screenshot](https://raw.github.com/cjus/umf_router/master/UMFTester.png "UMFTester screenshot")
+![UMFTester screenshot](http://www.carlosjustiniano.com/images/UMFTester.png "UMFTester screenshot")
 ## Using the UMFTester application
 Run the UMF Router (backend) server using:
 
