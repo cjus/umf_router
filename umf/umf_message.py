@@ -19,6 +19,8 @@ class UMFMessageField:
     FROM = 'from'
     TO = 'to'
     TYPE = 'type'
+    MID = 'mid'
+    RMID = 'rmid'
 
 
 class UMFMessage:
