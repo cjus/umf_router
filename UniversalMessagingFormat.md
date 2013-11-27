@@ -63,10 +63,8 @@ Because UMF is an asynchronous message format, an individual message may be gene
 The mid field is a required field.
   
 ### 2.2.2 Rmid field (Refers to Message ID)
-The Refers to Message ID (rmid) is a method of specifying that a message refers to another message.
-The use of the rmid field is helpful in the case of a message that requires reply or where a reply finalizes or changes an application's state machine.
-This is also useful in threaded conversations there a message may be sent in
-reply to another pre-existing message.
+The Refers to Message ID (rmid) is a method of specifying that a message refers to another message.  The use of the rmid field is helpful in the case of a message that requires reply or where a reply finalizes or changes an application's state machine. This is also useful in threaded conversations there a message may be sent in reply to another pre-existing message.
+
 The rmid field is NOT a required field.
  
 ### 2.2.3 To field (routing)
