@@ -27,9 +27,10 @@ def handle_websocket(ws):
             umf_router.route(msg_dict, ws)
 
             # sample code to randomly send a message back to client
+            msg = {"type": random.choice(
+                ['chat', 'heart',
+                 'mouse', 'client']),
+                   'to': msg_dict[UMFMessageField.FROM]
+            }
             if random.randint(0, 10) > 5:
-                umf_router.send_message({
-                                            "type": random.choice(['chat', 'heart',
-                                           'mouse', 'client']),
-                    "to": msg_dict[UMFMessageField.FROM]
-                                        }, ws)
+                umf_router.send_message(msg, ws)
