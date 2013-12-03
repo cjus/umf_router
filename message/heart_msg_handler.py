@@ -16,7 +16,7 @@ class HeartBeatMsgHandler(UMFMessage):
         """Get an instance of the UMFRouter and register this handler."""
         UMFMessage.__init__(self, UMFMessageType.HEART, self.handler)
 
-    def handler(self, ws, message):
+    def handler(self, message, ws):
         """Simply report that the message is being handled, for now."""
         print('HeartMsgHandler handling msg %s from uid %s' %
               (message[UMFMessageField.TYPE], message[UMFMessageField.FROM]))

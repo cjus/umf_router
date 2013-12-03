@@ -52,28 +52,32 @@ class UMFRouter:
         print('    Handler registered for %s by %s' % (message_type, handler))
         return True
 
-    def route(self, ws, message):
+    def route(self, message, ws):
         """Route a message to one or more registered handlers."""
         routed = True
         if message[UMFMessageField.TYPE] not in self.message_router_map:
-            if not ws:
-                self.send_message(ws, {
-                    "type": "error",
+            print('message %s not in message_router_map' %
+                  message[UMFMessageField.TYPE])
+            if ws:
+                self.send_message({
+                                      "type": "error",
                     "rmid": message[UMFMessageField.MID],
                     "to": message[UMFMessageField.FROM],
                     "body": {
                         "errorcode": 400,
                         "message": "unable to route message."
                     }
-                })
+                                  }, ws)
             return False
 
         for handler in self.message_router_map[message[UMFMessageField.TYPE]]:
-            handler(ws, message)
+            handler(message, ws)
         return routed
 
-    def send_message(self, ws, message_fragment):
+    def send_message(self, message_fragment, ws=None):
         """utility function to simplify sending messages"""
+        if ws is None:
+            return
         t = time.gmtime()
         time_stamp = "%d/%2.2d/%2.2dT%2.2d:%2.2d:%2.2dZ" % \
                      (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour,

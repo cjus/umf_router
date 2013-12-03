@@ -38,6 +38,6 @@ class ChatMsgHandlerTests(unittest.TestCase):
             "body": {
             }
         }
-        routed = umf.route(None, msg)
+        routed = umf.route(msg)
         self.assertTrue(routed, msg='msg routing for message of type chat '
                                     'was expected to be routed to a handler.')
