@@ -20,7 +20,7 @@ class UMFRouterTests(unittest.TestCase):
     """UMFRouterTests suite. Test that message handlers can be registered
     with the UMRouter and that message can indeed be routed."""
 
-    def chat_handler(self, message):
+    def chat_handler(self, ws, message):
         """Mock chat handler."""
         print('Processing message of type: %s' % message['type'])
 
@@ -61,7 +61,7 @@ class UMFRouterTests(unittest.TestCase):
             "body": {
             }
         }
-        routed = umf.route(msg)
+        routed = umf.route(None, msg)
         self.assertTrue(routed, msg='msg routing for message of type chat '
                                     'was expected to be routed to a handler.')
 
@@ -80,7 +80,7 @@ class UMFRouterTests(unittest.TestCase):
             "body": {
             }
         }
-        routed = umf.route(msg)
+        routed = umf.route(None, msg)
         self.assertFalse(routed, msg='msg routing for message of type badtype '
                                      'was expected to NOT be routed to a '
                                      'handler.')
@@ -92,7 +92,7 @@ class UMFRouterTests(unittest.TestCase):
                                               'missing handler should raise an '
                                               'exception'):
             bad_handler = BadHandler()
-            bad_handler.handler({})
+            bad_handler.handler(None, {})
 
 
 if __name__ == '__main__':

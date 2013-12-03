@@ -34,7 +34,7 @@ class UMFMessage:
         umf_router = UMFRouter()
         umf_router.register_handler(msg_type, handler)
 
-    def handler(self, message):
+    def handler(self, ws, message):
         """Base handler fires exception when derived class doesn't include
         its own handler."""
         raise Exception("UMFMessage derived class must implement its own "

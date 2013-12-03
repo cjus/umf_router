@@ -4,6 +4,10 @@ message router for our application.
 """
 __author__ = 'carlosjustiniano'
 
+import json
+import time
+
+from uuid import uuid4
 from umf_message import UMFMessageField
 
 
@@ -48,15 +52,42 @@ class UMFRouter:
         print('    Handler registered for %s by %s' % (message_type, handler))
         return True
 
-    def route(self, message):
+    def route(self, ws, message):
         """Route a message to one or more registered handlers."""
         routed = True
         if message[UMFMessageField.TYPE] not in self.message_router_map:
-            print('Unable to route message. Message handler not registered for '
-                  'message type: %s' % message[UMFMessageField.TYPE])
+            if not ws:
+                self.send_message(ws, {
+                    "type": "error",
+                    "rmid": message[UMFMessageField.MID],
+                    "to": message[UMFMessageField.FROM],
+                    "body": {
+                        "errorcode": 400,
+                        "message": "unable to route message."
+                    }
+                })
             return False
 
         for handler in self.message_router_map[message[UMFMessageField.TYPE]]:
-            handler(message)
+            handler(ws, message)
         return routed
 
+    def send_message(self, ws, message_fragment):
+        """utility function to simplify sending messages"""
+        t = time.gmtime()
+        time_stamp = "%d/%2.2d/%2.2dT%2.2d:%2.2d:%2.2dZ" % \
+                     (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour,
+                      t.tm_min, t.tm_sec)
+        msg = {
+            "mid": uuid4().hex,
+            "type": "msg",
+            "to": "",
+            "from": "umfTestServer",
+            "version": "1.0",
+            "timestamp": time_stamp,
+            "body": {
+            }
+        }
+        # merge message_fragment into msg updating supplied message fields
+        msg = dict(msg.items() + message_fragment.items())
+        ws.send(json.dumps(msg))
