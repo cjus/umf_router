@@ -17,7 +17,15 @@ class MouseMsgHandler(UMFMessage):
         UMFMessage.__init__(self, UMFMessageType.MOUSE, self.handler)
 
     def handler(self, message, ws):
-        """Simply report that the message is being handled, for now."""
+        """Simply report that the message is being handled, for now.
+
+        Args:
+            message: Dictionary with UMF message fields.
+            ws: A gevent websocket.
+
+        Returns:
+            No return value
+        """
         print('MouseMsgHandler handling msg %s from uid %s' %
               (message[UMFMessageField.TYPE], message[UMFMessageField.FROM]))
 

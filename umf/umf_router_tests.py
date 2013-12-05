@@ -1,9 +1,11 @@
 """umf_router test suite.
 """
 import unittest
-from umf_message import UMFMessage
-from umf_message import UMFMessageType
-from umf_router import UMFRouter
+from umf.umf_message import UMFMessage
+from umf.umf_message import UMFMessageField
+from umf.umf_message import UMFMessageType
+from umf.umf_message import UMFMessageVersion
+from umf.umf_router import UMFRouter
 
 __author__ = 'carlosjustiniano'
 
@@ -52,13 +54,13 @@ class UMFRouterTests(unittest.TestCase):
         umf = UMFRouter()
         umf.register_handler(UMFMessageType.CHAT, self.chat_handler)
         msg = {
-            "mid": 0,
-            "type": "chat",
-            "to": "umfTestServer",
-            "from": "UMFTester:abcd",
-            "version": "1.0",
-            "timestamp": "",
-            "body": {
+            UMFMessageField.MID: 0,
+            UMFMessageField.TYPE: UMFMessageType.CHAT,
+            UMFMessageField.TO: 'umfTestServer',
+            UMFMessageField.FROM: 'UMFTester:abcd',
+            UMFMessageField.VERSION: UMFMessageVersion.VERSION_1_0,
+            UMFMessageField.TIMESTAMP: '',
+            UMFMessageField.BODY: {
             }
         }
         routed = umf.route(msg, None)
@@ -71,13 +73,13 @@ class UMFRouterTests(unittest.TestCase):
         umf = UMFRouter()
 
         msg = {
-            "mid": 0,
-            "type": "badtype",
-            "to": "umfTestServer",
-            "from": "UMFTester:abcd",
-            "version": "1.0",
-            "timestamp": "",
-            "body": {
+            UMFMessageField.MID: 0,
+            UMFMessageField.TYPE: 'badtype',
+            UMFMessageField.TO: 'umfTestServer',
+            UMFMessageField.FROM: 'UMFTester:abcd',
+            UMFMessageField.VERSION: UMFMessageVersion.VERSION_1_0,
+            UMFMessageField.TIMESTAMP: '',
+            UMFMessageField.BODY: {
             }
         }
         routed = umf.route(msg, None)

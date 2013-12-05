@@ -11,10 +11,15 @@ import message
 
 from umf.umf_router import UMFRouter
 from umf.umf_message import UMFMessageField
+from umf.umf_message import UMFMessageType
 
 
 def handle_websocket(ws):
-    """Main socket handler"""
+    """Main socket handler
+
+    Args:
+        ws: A gevent websocket.
+    """
     while True:
         ws_message = ws.receive()
         if ws_message is None:
@@ -27,10 +32,13 @@ def handle_websocket(ws):
             umf_router.route(msg_dict, ws)
 
             # sample code to randomly send a message back to client
-            msg = {"type": random.choice(
-                ['chat', 'heart',
-                 'mouse', 'client']),
-                   'to': msg_dict[UMFMessageField.FROM]
+            chosen_type = random.choice(
+                [UMFMessageType.CHAT, UMFMessageType.HEART,
+                 UMFMessageType.MOUSE, UMFMessageType.CLIENT]
+            )
+            msg = {
+                UMFMessageField.TYPE: chosen_type,
+                UMFMessageField.TO: msg_dict[UMFMessageField.FROM]
             }
             if random.randint(0, 10) > 5:
                 umf_router.send_message(msg, ws)

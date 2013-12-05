@@ -8,10 +8,13 @@ import json
 import time
 
 from uuid import uuid4
-from umf_message import UMFMessageField
+from umf.umf_message import UMFMessageField
+from umf.umf_message import UMFMessageVersion
+from umf.umf_message import UMFMessageType
+from umf.umf_message import UMFFormat
 
 
-def singleton(cls):
+def singleton(cls):  # pylint: disable=too-few-public-methods
     """This is a singleton helper function."""
 
     instances = {}
@@ -25,7 +28,7 @@ def singleton(cls):
 
 
 @singleton
-class UMFRouter:
+class UMFRouter(object):  # pylint: disable=too-few-public-methods
     """UMFRouter singleton class. Helpful in ensuring that only one instance
     of this class is available to the entire system.
     """
@@ -35,17 +38,39 @@ class UMFRouter:
         self.message_router_map = {}
 
     def type_exists(self, message_type):
-        """Test if type is already registered and in message_router_map."""
+        """Test if type is already registered and in message_router_map.
+
+        Args:
+            message_type: A supported UMFMessageType type const.
+
+        Returns:
+            A Boolean value, True if found, False if not found.
+        """
         return message_type in self.message_router_map
 
     def handler_count(self, message_type):
-        """Return count of handler for a message_type."""
+        """Return count of handler for a message_type.
+
+        Args:
+            message_type: A supported UMFMessageType type const.
+
+        Returns:
+            A count of handlers for a given message_type.
+        """
         if self.type_exists(message_type):
             return len(self.message_router_map[message_type])
         return 0
 
     def register_handler(self, message_type, handler):
-        """Register a handler for a specific message_type."""
+        """Register a handler for a specific message_type.
+
+        Args:
+            message_type: A supported UMFMessageType type const.
+            handler: A reference to a function handler.
+
+        Returns:
+            Boolean True
+        """
         if not self.type_exists(message_type):
             self.message_router_map[message_type] = []
         self.message_router_map[message_type].append(handler)
@@ -53,43 +78,59 @@ class UMFRouter:
         return True
 
     def route(self, message, ws):
-        """Route a message to one or more registered handlers."""
-        routed = True
+        """Route a message to one or more registered handlers.
+
+        Args:
+            message_type: A supported UMFMessageType type const.
+            ws: A gevent websocket.
+
+        Returns:
+            Boolean True if routed, else False
+        """
         if message[UMFMessageField.TYPE] not in self.message_router_map:
             print('message %s not in message_router_map' %
                   message[UMFMessageField.TYPE])
             if ws:
-                self.send_message({
-                                      "type": "error",
-                    "rmid": message[UMFMessageField.MID],
-                    "to": message[UMFMessageField.FROM],
-                    "body": {
-                        "errorcode": 400,
-                        "message": "unable to route message."
+                msg = {
+                    UMFMessageField.TYPE: UMFMessageType.ERROR,
+                    UMFMessageField.RMID: message[UMFMessageField.MID],
+                    UMFMessageField.TO: message[UMFMessageField.FROM],
+                    UMFMessageField.BODY: {
+                        'errorcode': 400,
+                        'message': "unable to route message."
                     }
-                                  }, ws)
+                }
+                self.send_message(msg, ws)
             return False
 
         for handler in self.message_router_map[message[UMFMessageField.TYPE]]:
             handler(message, ws)
-        return routed
+        return True
 
     def send_message(self, message_fragment, ws=None):
-        """utility function to simplify sending messages"""
+        """Utility function to simplify sending messages.
+
+        Args:
+            message_fragment: Dictionary with UMF message field overrides.
+            ws: A gevent websocket.
+
+        Returns:
+            No return value
+        """
         if ws is None:
             return
         t = time.gmtime()
-        time_stamp = "%d/%2.2d/%2.2dT%2.2d:%2.2d:%2.2dZ" % \
+        time_stamp = UMFFormat.TIMESTAMP % \
                      (t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour,
                       t.tm_min, t.tm_sec)
         msg = {
-            "mid": uuid4().hex,
-            "type": "msg",
-            "to": "",
-            "from": "umfTestServer",
-            "version": "1.0",
-            "timestamp": time_stamp,
-            "body": {
+            UMFMessageField.MID: uuid4().hex,
+            UMFMessageField.TYPE: UMFMessageType.MSG,
+            UMFMessageField.TO: '',
+            UMFMessageField.FROM: 'umfTestServer',
+            UMFMessageField.VERSION: UMFMessageVersion.VERSION_1_0,
+            UMFMessageField.TIMESTAMP: time_stamp,
+            UMFMessageField.BODY: {
             }
         }
         # merge message_fragment into msg updating supplied message fields

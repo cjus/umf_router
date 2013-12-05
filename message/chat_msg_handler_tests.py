@@ -29,13 +29,13 @@ class ChatMsgHandlerTests(unittest.TestCase):
         chat = ChatMsgHandler()
         umf.register_handler(UMFMessageType.CHAT, chat.handler)
         msg = {
-            "mid": 0,
-            "type": "chat",
-            "to": "umfTestServer",
-            "from": "UMFTester:abcd",
-            "version": "1.0",
-            "timestamp": "",
-            "body": {
+            UMFMessageField.MID: 0,
+            UMFMessageField.TYPE: UMFMessageType.CHAT,
+            UMFMessageField.TO: 'umfTestServer',
+            UMFMessageField.FROM: 'UMFTester:abcd',
+            UMFMessageField.VERSION: UMFMessageVersion.VERSION_1_0,
+            UMFMessageField.TIMESTAMP: '',
+            UMFMessageField.BODY: {
             }
         }
         routed = umf.route(msg)
