@@ -39,6 +39,9 @@ In UMF the inner portion consists of UMF reserved key/value pairs with an option
 
 Only UMF reserved words may be used. However, application specific (custom) key/value pairs may be used freely inside the body value.  This strict requirement ensures that the message format has a strict agreed upon format as defined by it’s version number.
 
+## 2.1.1 Envelop format considerations for routing
+A UMF message is considered to be a system routable message. The UMF message fields aid first and foremost in routing but can also secondarily be used by message processing systems (i.e. message handlers) to obtain additional routing related fields.  However, the fields are reserved for routing systems and not intended to be extensible with application specific fields.  Where application specific fields are needs they should be placed in the body value instead.
+
 ## 2.2 Reserved Fields
 As described earlier UMF consists of reserved key/value pairs with an optional embedded body object.  This section describes each of the reserved fields and their intended use. A reserved field consists of a name key followed by a value which is encoded in a strict format. As we’ll see later in this specification, only the body field differs from this requirement.  The point here is that a reserved field has a value content which follows a strict format.
 
